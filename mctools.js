@@ -6,9 +6,9 @@ Template Controllers
 
 
 /**
-Helper functions for ethereum dapps
+Helper functions for moac dapps
 
-@class [packages] ethereum:tools
+@class [packages] moac:tools
 @constructor
 */
 
@@ -41,7 +41,7 @@ Check for supported currencies
 
 @method supportedCurrencies
 @param {String} unit
-@return {String}
+@return {boolean}
 */
 var supportedCurrencies = function(unit){
     return (unit === 'usd' ||
@@ -52,7 +52,7 @@ var supportedCurrencies = function(unit){
 };
 
 /**
-Gets the ether unit if not set from localstorage
+Gets the mc unit if not set from localstorage
 
 @method getUnit
 @param {String} unit
@@ -60,11 +60,11 @@ Gets the ether unit if not set from localstorage
 */
 var getUnit = function(unit){
     if(!_.isString(unit)) {
-        unit = LocalStore.get('dapp_etherUnit');
+        unit = LocalStore.get('dapp_mcUnit');
 
         if(!unit) {
-            unit = 'ether';
-            LocalStore.set('dapp_etherUnit', unit);
+            unit = 'mc';
+            LocalStore.set('dapp_mcUnit', unit);
         }
     }
 
@@ -74,35 +74,35 @@ var getUnit = function(unit){
 
 
 /**
-Helper functions for ethereum dapps
+Helper functions for moac dapps
 
-@class MoacTools
+@class McTools
 @constructor
 */
 
-MoacTools = {
+McTools = {
     lang: 'en'
 };
 
 if(isMeteorPackage) {
 
     /**
-    Sets the default unit used by all MoacTools functions, if no unit is provided.
+    Sets the default unit used by all McTools functions, if no unit is provided.
 
-        MoacTools.setUnit('ether')
+        McTools.setUnit('mc')
 
     @method setUnit
-    @param {String} unit the unit like 'ether', or 'eur'
-    @param {Boolean}
+    @param {String} unit the unit like 'mc', or 'eur'
+    @return {boolean}
     **/
-    MoacTools.setUnit = function(unit){
+    McTools.setUnit = function(unit){
         if(supportedCurrencies(unit)) {
-            LocalStore.set('dapp_etherUnit', unit);
+            LocalStore.set('dapp_mcUnit', unit);
             return true;
         } else {
             try {
-                web3.toWei(1, unit);
-                LocalStore.set('dapp_etherUnit', unit);
+                web3.toSha(1, unit);
+                LocalStore.set('dapp_mcUnit', unit);
                 return true;
             } catch(e) {
                 return false;
@@ -111,30 +111,30 @@ if(isMeteorPackage) {
     };
 
     /**
-    Get the default unit used by all MoacTools functions, if no unit is provided.
+    Get the default unit used by all McTools functions, if no unit is provided.
 
-        MoacTools.getUnit()
+        McTools.getUnit()
 
     @method getUnit
-    @return {String} unit the unit like 'ether', or 'eur'
+    @return {String} unit the unit like 'mc', or 'eur'
     **/
-    MoacTools.getUnit = function(){
-        return LocalStore.get('dapp_etherUnit');
+    McTools.getUnit = function(){
+        return LocalStore.get('dapp_mcUnit');
     };
 }
 
 /**
 Sets the locale to display numbers in different formats.
 
-    MoacTools.setLocale('de')
+    McTools.setLocale('de')
 
 @method language
 @param {String} lang the locale like "de" or "de-DE"
 **/
-MoacTools.setLocale = function(lang){
+McTools.setLocale = function(lang){
     var lang = lang.substr(0,2).toLowerCase();
     // numeral.language(lang);
-    MoacTools.lang = lang;
+    McTools.lang = lang;
 
     dependency.changed();
 
@@ -144,14 +144,14 @@ MoacTools.setLocale = function(lang){
 /**
 Formats a given number
 
-    MoacTools.formatNumber(10000, "0.0[000]")
+    McTools.formatNumber(10000, "0.0[000]")
 
 @method formatNumber
 @param {Number|String|BigNumber} number the number to format
 @param {String} format           the format string e.g. "0,0.0[000]" see http://numeraljs.com for more.
 @return {String} The formated time
 **/
-MoacTools.formatNumber = function(number, format){
+McTools.formatNumber = function(number, format){
     var length = optionalLength = 0;
     dependency.depend();
 
@@ -166,7 +166,7 @@ MoacTools.formatNumber = function(number, format){
     if(_.isFinite(number) && !_.isObject(number))
         number = new BigNumber(number);
 
-    options = (MoacTools.lang === 'en')
+    options = (McTools.lang === 'en')
         ?   { decimalSeparator: '.',
               groupSeparator: ',',
               groupSize: 3
@@ -210,16 +210,16 @@ MoacTools.formatNumber = function(number, format){
 };
 
 /**
-Formats a number of wei to a balance.
+Formats a number of sha to a balance.
 
-    MoacTools.formatBalance(myNumber, "0,0.0[0000] unit")
+    McTools.formatBalance(myNumber, "0,0.0[0000] unit")
 
 @method (formatBalance)
 @param {String} number
 @param {String} format       the format string
 @return {String} The formatted number
 **/
-MoacTools.formatBalance = function(number, format, unit){
+McTools.formatBalance = function(number, format, unit){
     dependency.depend();
 
     if(!_.isFinite(number) && !(number instanceof BigNumber))
@@ -232,11 +232,11 @@ MoacTools.formatBalance = function(number, format, unit){
 
     unit = getUnit(unit);
 
-    if(typeof MoacTools.ticker !== 'undefined' && supportedCurrencies(unit)) {
-        var ticker = MoacTools.ticker.findOne(unit, {fields: {price: 1}});
+    if(typeof McTools.ticker !== 'undefined' && supportedCurrencies(unit)) {
+        var ticker = McTools.ticker.findOne(unit, {fields: {price: 1}});
 
-        // convert first to ether
-        number = web3.fromWei(number, 'ether');
+        // convert first to mc
+        number = web3.fromSha(number, 'mc');
 
         // then times the currency
         if(ticker) {
@@ -249,7 +249,7 @@ MoacTools.formatBalance = function(number, format, unit){
         }
 
     } else {
-        number = web3.fromWei(number, unit.toLowerCase());
+        number = web3.fromSha(number, unit.toLowerCase());
     }
 
     var isUppercase = (format.indexOf('UNIT') !== -1);
@@ -258,33 +258,34 @@ MoacTools.formatBalance = function(number, format, unit){
     var format = format.replace(cleanedFormat, '__format__');
 
     if(format.toLowerCase().indexOf('unit') !== -1) {
-        return format.replace('__format__', MoacTools.formatNumber(number, cleanedFormat)).replace(/unit/i, (isUppercase ? unit.toUpperCase() : unit));
+        return format.replace('__format__', McTools.formatNumber(number, cleanedFormat)).replace(/unit/i, (isUppercase ? unit.toUpperCase() : unit));
     } else
-        return MoacTools.formatNumber(number, cleanedFormat);
+        return McTools.formatNumber(number, cleanedFormat);
 };
 
 
 /**
-Formats any of the supported currency to ethereum wei.
+Formats any of the supported currency to moac sha.
 
-    MoacTools.toWei(myNumber, unit)
+    McTools.toSha(myNumber, unit)
 
-@method (toWei)
+@method (toSha)
 @param {String} number
-@return {String} unit
+@param {String} unit
+@return {String}
 **/
-MoacTools.toWei = function(number, unit){
+McTools.toSha = function(number, unit){
 
     if(!_.isFinite(number) && !(number instanceof BigNumber))
         return number;
 
     unit = getUnit(unit);
 
-    if(typeof MoacTools.ticker !== 'undefined' && supportedCurrencies(unit)) {
-        var ticker = MoacTools.ticker.findOne(unit, {fields: {price: 1}});
+    if(typeof McTools.ticker !== 'undefined' && supportedCurrencies(unit)) {
+        var ticker = McTools.ticker.findOne(unit, {fields: {price: 1}});
 
-        // convert first to ether
-        number = web3.toWei(number, 'ether');
+        // convert first to mc
+        number = web3.toSha(number, 'mc');
 
         // then times the currency
         if(ticker) {
@@ -299,7 +300,7 @@ MoacTools.toWei = function(number, unit){
         }
 
     } else {
-        number = web3.toWei(number, unit.toLowerCase());
+        number = web3.toSha(number, unit.toLowerCase());
 
     }
 

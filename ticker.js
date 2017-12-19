@@ -1,11 +1,11 @@
 // Price ticker
-MoacTools.ticker = new Mongo.Collection('moac_price_ticker', {connection: null});
+McTools.ticker = new Mongo.Collection('moac_price_ticker', {connection: null});
 if (Meteor.isClient) {
-    new PersistentMinimongo(MoacTools.ticker);
+    new PersistentMinimongo(McTools.ticker);
 }
-var urlPrefix = "https://localhost:8887";
+var urlPrefix = "http://moac.io/cryptocompare";
 
-MoacTools.ticker.start = function (options) {
+McTools.ticker.start = function (options) {
     options = options || {};
     if (!options.currencies) {
         options.currencies = ['BTC', 'USD', 'EUR'];
@@ -26,7 +26,7 @@ MoacTools.ticker.start = function (options) {
 
                     // make sure its a number and nothing else!
                     if (_.isFinite(price)) {
-                        MoacTools.ticker.upsert(name, {
+                        McTools.ticker.upsert(name, {
                             $set: {
                                 price: String(price),
                                 timestamp: null

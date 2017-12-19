@@ -10,14 +10,14 @@ You can either add it as a Meteor package using:
 
     $ Meteor add moac:tools
 
-or add link to the `moactools.js` in your HTML.
+or add link to the `mctools.js` in your HTML.
 
 
 ## Usage
 
 This package provides formating and converting functionality.
 
-When using the `MoacTools.ticker` it will call the [cryptocompare.com public API](https://min-api.cryptocompare.com/data/price?fsym=MOAC&tsyms=BTC,USD,EUR) every 30s to retrive price information for ether.
+When using the `McTools.ticker` it will call the [cryptocompare.com public API](https://min-api.cryptocompare.com/data/price?fsym=MOAC&tsyms=BTC,USD,EUR) every 30s to retrive price information for mc.
 When used as a Meteor package, the following units are possible for some methods:
 
     - `btc`
@@ -26,23 +26,23 @@ When used as a Meteor package, the following units are possible for some methods
     - `cad`
     - `gbp`
     - `jpy`
-    - And all moac units ('mc', 'finney', 'wei', etc)
+    - And all moac units ('mc', 'finney', 'sha', etc)
 
-**Note** As non-meteor package you can only use the ether units.
+**Note** As non-meteor package you can only use the mc units.
 
 ***
 
-### MoacTools.ticker
+### McTools.ticker
 
-    MoacTools.ticker.start();
-    MoacTools.ticker.findOne(unit)
+    McTools.ticker.start();
+    McTools.ticker.findOne(unit)
 
 **Note** This is only available when used as a Meteor package.
 
-To start polling for ticker prices run `MoacTools.ticker.start()`
+To start polling for ticker prices run `McTools.ticker.start()`
 
-It gives you the latest price for ether based on the [kraken.com public API](https://api.kraken.com/0/public/Ticker?pair=XETHZEUR,XXBTZUSD).
-`MoacTools.ticker` is a reactive collection, so when used in a reactive function it will re-run this function when the price is updated.
+It gives you the latest price for mc based on the [kraken.com public API](https://api.kraken.com/0/public/Ticker?pair=XETHZEUR,XXBTZUSD).
+`McTools.ticker` is a reactive collection, so when used in a reactive function it will re-run this function when the price is updated.
 
 The ticker will be updated every 30 seconds.
 
@@ -66,7 +66,7 @@ Its a normal Meteor collection
 
 **Example**
 ```js
-var usd = MoacTools.ticker.findOne('usd')
+var usd = McTools.ticker.findOne('usd')
 
 if(usd)
     console.log(usd.price) // "2.0000"
@@ -74,12 +74,12 @@ if(usd)
 
 ***
 
-### MoacTools.setLocale
+### McTools.setLocale
 
-    MoacTools.setLocale(locale)
+    McTools.setLocale(locale)
 
 Set the locale to display numbers differently in other countries.
-This functions lets `MoacTools.formatBalance()` and `MoacTools.formatNumber()` reactivly re-run, to show the new format.
+This functions lets `McTools.formatBalance()` and `McTools.formatNumber()` reactivly re-run, to show the new format.
 
 **Parameters**
 
@@ -92,23 +92,23 @@ This functions lets `MoacTools.formatBalance()` and `MoacTools.formatNumber()` r
 **Example**
 
 ```js
-MoacTools.setLocale('de');
-MoacTools.formatNumber(2000, '0,0.00');
+McTools.setLocale('de');
+McTools.formatNumber(2000, '0,0.00');
 // 2 000,00
 ```
 
 ***
 
-### MoacTools.setUnit
+### McTools.setUnit
 
-    MoacTools.setUnit(unit)
+    McTools.setUnit(unit)
 
 **Note** This is only available when used as a Meteor package.
 
-Reactivly sets a unit used as default unit, when no unit is passed to other MoacTools methods.
+Reactivly sets a unit used as default unit, when no unit is passed to other McTools methods.
 And also persists it in localstorage so its the same when you reload you app.
 
-Default is unit `ether`.
+Default is unit `mc`.
 
 **Parameters**
 
@@ -121,26 +121,26 @@ Default is unit `ether`.
 **Example**
 
 ```js
-MoacTools.setUnit('btc');
+McTools.setUnit('btc');
 
 Tracker.autorun(function(){
-    var amount = MoacTools.formatBalance('23000000000000000000', '0,0.0[00] unit');
+    var amount = McTools.formatBalance('23000000000000000000', '0,0.0[00] unit');
     // amount = "0.287 btc"
 });
 ```
 
 ***
 
-### MoacTools.getUnit
+### McTools.getUnit
 
-    MoacTools.getUnit()
+    McTools.getUnit()
 
 **Note** This is only available when used as a Meteor package.
 
-Reactivly gets the current set default unit, used byt other MoacTools methods when no unit was passed.
+Reactivly gets the current set default unit, used byt other McTools methods when no unit was passed.
 And also persists it in localstorage so its the same when you reload you app.
 
-Default is unit `ether`.
+Default is unit `mc`.
 
 
 **Parameters**
@@ -154,10 +154,10 @@ none
 **Example**
 
 ```js
-MoacTools.setUnit('btc');
+McTools.setUnit('btc');
 
 Tracker.autorun(function(){
-    var unit = MoacTools.getUnit();
+    var unit = McTools.getUnit();
     // unit === 'btc'
 });
 
@@ -165,9 +165,9 @@ Tracker.autorun(function(){
 
 ***
 
-### MoacTools.formatNumber
+### McTools.formatNumber
 
-    MoacTools.formatNumber(number, format)
+    McTools.formatNumber(number, format)
 
 Formats any number using [numeral.js](http://numeraljs.com), e.g. `"0,0.00[0000]"`.
 
@@ -183,7 +183,7 @@ Formats any number using [numeral.js](http://numeraljs.com), e.g. `"0,0.00[0000]
 **Example**
 
 ```js
-var finney = MoacTools.formatNumber(2000, '0,0.00');
+var finney = McTools.formatNumber(2000, '0,0.00');
 // finney = '2,000.00'
 ```
 ***
@@ -198,25 +198,25 @@ var finney = MoacTools.formatNumber(2000, '0,0.00');
 
 ***
 
-### MoacTools.formatBalance
+### McTools.formatBalance
 
-    MoacTools.formatBalance(wei, format, unit)
+    McTools.formatBalance(sha, format, unit)
 
-Formats a number of wei into any other ethereum unit and other currencies (see [Usage](#usage)).
+Formats a number of sha into any other moac unit and other currencies (see [Usage](#usage)).
 
-Default is unit `ether`.
+Default is unit `mc`.
 
 The `format` property follows the [numeral.js](http://numeraljs.com) formatting, e.g. `"0,0.00[0000]"`.
 Additionally you can add `"unit"` or `"UNIT"` (for uppercase) to display the unit after or before the number the number.
 
-Additionally this function uses the reactive `MoacTools.getUnit()` variable, when no `unit` was given.
-You can then reactivly change the unit using `MoacTools.setUnit('finney')`
+Additionally this function uses the reactive `McTools.getUnit()` variable, when no `unit` was given.
+You can then reactivly change the unit using `McTools.setUnit('finney')`
 
 **Parameters**
 
-- `wei` (`String|Number`) - the amount of wei to convert and format
+- `sha` (`String|Number`) - the amount of sha to convert and format
 - `format` (`String`) - the format see [numeral.js](http://numeraljs.com) for examples, e.g. `"0,0.00[0000]"`.
-- `unit` (`String`) - (optional) the unit to convert the given wei amount to, if not given it will use `MoacTools.getUnit()`
+- `unit` (`String`) - (optional) the unit to convert the given sha amount to, if not given it will use `McTools.getUnit()`
 
 **Returns**
 
@@ -225,7 +225,7 @@ You can then reactivly change the unit using `MoacTools.setUnit('finney')`
 **Example**
 
 ```js
-var amount = MoacTools.formatBalance(112345676543212345, '0,0.0[00] unit', 'finney');
+var amount = McTools.formatBalance(112345676543212345, '0,0.0[00] unit', 'finney');
 // amount = "112.346 finney"
 ```
 
@@ -238,29 +238,29 @@ var amount = MoacTools.formatBalance(112345676543212345, '0,0.0[00] unit', 'finn
 **Usage**
 
 ```html
-{{dapp_formatBalance "1000000133" "0,0.00[0000]" "ether"}}
+{{dapp_formatBalance "1000000133" "0,0.00[0000]" "mc"}}
 ```
 
-If you leave the last value it will use `MoacTools.getUnit()`, as reactive localstorage variable.
+If you leave the last value it will use `McTools.getUnit()`, as reactive localstorage variable.
 
 ```html
 {{dapp_formatBalance "1000000133" "0,0.00"}}
 ```
 
-Use then `MoacTools.setUnit(finney')` to change the unit and displayed balances.
+Use then `McTools.setUnit(finney')` to change the unit and displayed balances.
 
 ***
 
-### MoacTools.toWei
+### McTools.toSha
 
-    MoacTools.toWei(number, unit)
+    McTools.toSha(number, unit)
 
-Formats an amount of any supported unit (see [Usage](#usage)) into wei.
+Formats an amount of any supported unit (see [Usage](#usage)) into sha.
 
-Default is unit `ether`.
+Default is unit `mc`.
 
-Additionally this function uses the reactive `MoacTools.getUnit()` variable, when no `unit` was given.
-You can then reactivly change the unit using `MoacTools.setUnit('finney')`
+Additionally this function uses the reactive `McTools.getUnit()` variable, when no `unit` was given.
+You can then reactivly change the unit using `McTools.setUnit('finney')`
 
 **Parameters**
 
@@ -269,11 +269,11 @@ You can then reactivly change the unit using `MoacTools.setUnit('finney')`
 
 **Returns**
 
-`String` - the number in wei.
+`String` - the number in sha.
 
 **Example**
 
 ```js
-var wei = MoacTools.toWei(23, 'btc');
-// wei = "80000000000000000000"
+var sha = McTools.toSha(23, 'btc');
+// sha = "80000000000000000000"
 ```

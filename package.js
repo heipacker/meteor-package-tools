@@ -1,8 +1,8 @@
 Package.describe({
   name: 'moac:tools',
   summary: 'Helper functions for dapps',
-  version: '0.7.0',
-  git: 'http://github.com/MOACChain/meteor-package-tools'
+  version: '0.1.0',
+  git: 'http://github.com/heipacker/meteor-package-tools'
 });
 
 Package.onUse(function(api) {
@@ -18,14 +18,14 @@ Package.onUse(function(api) {
   //api.use('numeral:numeral@1.5.3', ['client', 'server']);
   api.use('3stack:bignumber@2.0.0', 'client');
 
-  api.use('ethereum:web3@0.15.1', ['client', 'server']);
+  api.use('moac:web3@0.1.0', ['client', 'server']);
   api.use('frozeman:persistent-minimongo@0.1.8', 'client');
   api.use('frozeman:storage@0.1.8', 'client');
 
-  api.export(['MoacTools'], ['client', 'server']);
+  api.export(['McTools'], ['client', 'server']);
 
 
-  api.addFiles('moactools.js', ['client', 'server']);
+  api.addFiles('mctools.js', ['client', 'server']);
   api.addFiles('ticker.js', ['client', 'server']);
 
   api.addFiles('globalHelpers.js', 'client');
@@ -34,6 +34,6 @@ Package.onUse(function(api) {
 Package.onTest(function(api) {
   api.use('tinytest');
   api.use('moac:tools');
-  api.addFiles('moactools-tests.js', ['client', 'server']);
+  api.addFiles('mctools-tests.js', ['client', 'server']);
 });
 

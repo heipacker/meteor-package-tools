@@ -8,7 +8,7 @@ Formats a number.
 @param {String} format       the format string
 @return {String} The formatted number
 **/
-Template.registerHelper('dapp_formatNumber', MoacTools.formatNumber);
+Template.registerHelper('dapp_formatNumber', McTools.formatNumber);
 
 /**
 Formats a number.
@@ -20,4 +20,4 @@ Formats a number.
 @param {String} format       the format string
 @return {String} The formatted number
 **/
-Template.registerHelper('dapp_formatBalance', MoacTools.formatBalance);
+Template.registerHelper('dapp_formatBalance', McTools.formatBalance);
