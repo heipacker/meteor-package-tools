@@ -1,5 +1,5 @@
 Package.describe({
-  name: 'moac:tools',
+  name: 'heipacker:tools',
   summary: 'Helper functions for dapps',
   version: '0.1.0',
   git: 'http://github.com/heipacker/meteor-package-tools'
@@ -18,7 +18,7 @@ Package.onUse(function(api) {
   //api.use('numeral:numeral@1.5.3', ['client', 'server']);
   api.use('3stack:bignumber@2.0.0', 'client');
 
-  api.use('moac:web3@0.1.0', ['client', 'server']);
+  api.use('heipacker:web3@0.1.0', ['client', 'server']);
   api.use('frozeman:persistent-minimongo@0.1.8', 'client');
   api.use('frozeman:storage@0.1.8', 'client');
 
@@ -33,7 +33,15 @@ Package.onUse(function(api) {
 
 Package.onTest(function(api) {
   api.use('tinytest');
-  api.use('moac:tools');
+
+  api.use('frozeman:storage@0.1.8', 'client')
+  api.use('spacebars', 'client');
+  api.use('templating', 'client');
+  api.use('tracker', 'client');
+
+  api.use('heipacker:web3');
+  api.use('heipacker:tools');
+
   api.addFiles('mctools-tests.js', ['client', 'server']);
 });
 

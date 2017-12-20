@@ -215,8 +215,9 @@ Formats a number of sha to a balance.
     McTools.formatBalance(myNumber, "0,0.0[0000] unit")
 
 @method (formatBalance)
-@param {String} number
+@param {number} number
 @param {String} format       the format string
+@param {String} unit
 @return {String} The formatted number
 **/
 McTools.formatBalance = function(number, format, unit){

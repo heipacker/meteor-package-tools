@@ -1,7 +1,10 @@
-
+// web3 = new Web3();
+// console.log("----------");
+// web3.setProvider(new web3.providers.HttpProvider('http://localhost:8545'));
+//
+// McTools.ticker.start();
 
 Tinytest.add('McTools.toSha', function (test) {
-
     // set BTC price
     McTools.ticker.update('btc', {$set: {
         price: '0.01230'
@@ -26,7 +29,6 @@ Tinytest.add('McTools.formatNumber', function (test) {
 });
 
 Tinytest.add('McTools.formatBalance', function (test) {
-
     // default to mc
     if(Meteor.isClient)
         McTools.setUnit('mc');
