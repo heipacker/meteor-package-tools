@@ -37,7 +37,7 @@ McTools.ticker.start = function (options) {
                 });
             }
         } else {
-            console.warn('Can not connect to ' + urlPrefix + ' to get price ticker data, please check your internet connection.');
+            console.warn('Can not connect to ' + url + ' to get price ticker data, please check your internet connection.');
         }
     };
 
